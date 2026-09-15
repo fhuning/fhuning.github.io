@@ -1,10 +1,616 @@
 <!DOCTYPE html>
-<html>
+<html lang="nl">
 <head>
-  <title>Mijn website</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sluipertje — Biologische gin & limoncello uit Sluipwijk</title>
+<meta name="description" content="Sluipertje maakt biologische gin en limoncello met botanicals en citrus uit eigen polder in Sluipwijk. Klein gestookt, eerlijk gemaakt.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#170F20;
+    --paper:#F2E7D2;
+    --paper-soft:#E8D8B9;
+    --gin:#3B2170;
+    --gin-deep:#1B0036;
+    --limoncello:#D6A429;
+    --limoncello-deep:#B37E12;
+    --teal:#1E9DB5;
+    --teal-deep:#157988;
+    --line-light: rgba(23,15,32,0.16);
+    --line-dark: rgba(242,231,210,0.22);
+    --max: 1120px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Work Sans', system-ui, sans-serif;
+    font-size:17px;
+    line-height:1.6;
+  }
+
+  h1,h2,h3{
+    font-family:'Fraunces', Georgia, serif;
+    font-weight:500;
+    line-height:1.08;
+    margin:0;
+  }
+
+  p{margin:0;}
+
+  a{color:inherit;}
+
+  img,svg{display:block; max-width:100%;}
+
+  .wrap{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:0 28px;
+  }
+
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--limoncello);
+    outline-offset:3px;
+  }
+
+  /* ---------- NAV ---------- */
+  .nav{
+    position:sticky; top:0; z-index:40;
+    background:rgba(242,231,210,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line-light);
+  }
+  .nav .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:74px;
+  }
+  .wordmark{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:1.5rem;
+    color:var(--gin-deep);
+    text-decoration:none;
+    letter-spacing:0.01em;
+  }
+  .nav-links{
+    display:flex; gap:32px; list-style:none; margin:0; padding:0;
+  }
+  .nav-links a{
+    text-decoration:none;
+    font-size:0.95rem;
+    color:var(--ink);
+    border-bottom:1px solid transparent;
+    padding-bottom:3px;
+    transition:border-color .2s ease;
+  }
+  .nav-links a:hover{border-color:var(--limoncello-deep);}
+  .nav-toggle{display:none;}
+  @media (max-width:760px){
+    .nav-links{
+      position:absolute; top:74px; left:0; right:0;
+      flex-direction:column; gap:0;
+      background:var(--paper);
+      border-bottom:1px solid var(--line-light);
+      max-height:0; overflow:hidden;
+      transition:max-height .3s ease;
+    }
+    .nav-links.open{max-height:280px;}
+    .nav-links a{display:block; padding:16px 28px; border-bottom:1px solid var(--line-light);}
+    .nav-toggle{
+      display:flex; flex-direction:column; gap:5px;
+      background:none; border:none; cursor:pointer; padding:8px;
+    }
+    .nav-toggle span{width:22px; height:2px; background:var(--ink);}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:var(--gin-deep);
+    color:var(--paper);
+    position:relative;
+    overflow:hidden;
+    padding:96px 0 108px;
+  }
+  .hero .wrap{
+    display:grid;
+    grid-template-columns:1.15fr 0.85fr;
+    gap:48px;
+    align-items:center;
+    position:relative;
+    z-index:2;
+  }
+  .hero-eyebrow{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    color:var(--limoncello);
+    font-size:1.05rem;
+    margin-bottom:18px;
+    opacity:0;
+    animation:rise .7s ease forwards;
+  }
+  .hero h1{
+    font-size:clamp(2.6rem, 5.2vw, 4.1rem);
+    color:var(--paper);
+    max-width:12ch;
+    opacity:0;
+    animation:rise .8s ease .1s forwards;
+  }
+  .hero p.lede{
+    margin-top:26px;
+    max-width:44ch;
+    font-size:1.1rem;
+    color:rgba(242,231,210,0.86);
+    opacity:0;
+    animation:rise .8s ease .22s forwards;
+  }
+  .hero-ctas{
+    margin-top:36px;
+    display:flex; gap:16px; flex-wrap:wrap;
+    opacity:0;
+    animation:rise .8s ease .32s forwards;
+  }
+  @keyframes rise{
+    from{opacity:0; transform:translateY(14px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .hero-eyebrow,.hero h1,.hero p.lede,.hero-ctas{opacity:1; animation:none;}
+  }
+
+  .btn{
+    display:inline-block;
+    text-decoration:none;
+    font-size:0.95rem;
+    padding:13px 26px;
+    border-radius:2px;
+    border:1px solid transparent;
+    cursor:pointer;
+    font-family:'Work Sans', sans-serif;
+    font-weight:500;
+  }
+  .btn-gold{
+    background:var(--limoncello);
+    color:var(--gin-deep);
+  }
+  .btn-gold:hover{background:#e3b247;}
+  .btn-outline{
+    border-color:var(--line-dark);
+    color:var(--paper);
+  }
+  .btn-outline:hover{border-color:var(--paper);}
+  .btn-ink{
+    background:var(--ink);
+    color:var(--paper);
+  }
+  .btn-ink:hover{background:var(--gin-deep);}
+
+  .hero-art{ position:relative; }
+  .hero-video{
+    width:100%;
+    max-width:340px;
+    margin:0 auto;
+    border:1px solid var(--line-dark);
+    display:block;
+  }
+  .hero-video-caption{
+    display:block;
+    text-align:center;
+    margin-top:14px;
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:0.95rem;
+    color:var(--limoncello);
+  }
+
+  /* ---------- ribbon divider ---------- */
+  .ribbon{
+    background:var(--paper-soft);
+    border-top:1px solid var(--line-light);
+    border-bottom:1px solid var(--line-light);
+    padding:20px 0;
+  }
+  .ribbon .wrap{
+    display:flex; gap:40px; flex-wrap:wrap;
+    justify-content:space-between;
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:0.98rem;
+    color:var(--gin-deep);
+  }
+
+  /* ---------- SECTION generic ---------- */
+  section{padding:96px 0;}
+  .section-head{
+    max-width:640px;
+    margin-bottom:56px;
+  }
+  .section-head h2{
+    font-size:clamp(2rem, 3.6vw, 2.7rem);
+  }
+  .section-head p{
+    margin-top:18px;
+    font-size:1.05rem;
+    color:rgba(23,15,32,0.75);
+  }
+
+  /* ---------- BOTTLE BANNER ---------- */
+  .bottle-banner{
+    width:100%;
+    max-height:420px;
+    overflow:hidden;
+    background:var(--ink);
+  }
+  .bottle-banner img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+
+  /* ---------- STORY ---------- */
+  .story{background:var(--paper);}
+  .story .grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:64px;
+    align-items:start;
+  }
+  .story-copy p + p{margin-top:18px;}
+  .story-copy p{font-size:1.04rem;}
+  .place-card{
+    border:1px solid var(--line-light);
+    padding:32px;
+    background:var(--paper-soft);
+  }
+  .place-card h3{
+    font-size:1.3rem; font-style:italic; color:var(--gin-deep);
+    margin-bottom:16px;
+  }
+  .place-list{list-style:none; margin:0; padding:0;}
+  .place-list li{
+    display:flex; justify-content:space-between; gap:16px;
+    padding:12px 0;
+    border-top:1px solid var(--line-light);
+    font-size:0.96rem;
+  }
+  .place-list li:first-child{border-top:none;}
+  .place-list span:first-child{color:var(--ink);}
+  .place-list span:last-child{color:rgba(23,15,32,0.62); text-align:right;}
+
+  /* ---------- PRODUCT sections ---------- */
+  .product{position:relative;}
+  .product.gin{background:var(--gin-deep); color:var(--paper);}
+  .product.limoncello{background:var(--teal); color:var(--ink);}
+
+  .product .wrap{
+    display:grid;
+    grid-template-columns:0.9fr 1.1fr;
+    gap:56px;
+    align-items:center;
+  }
+  .product.limoncello .wrap{grid-template-columns:1.1fr 0.9fr;}
+  .product.limoncello .product-copy{order:2;}
+  .product.limoncello .product-art{order:1;}
+
+  .kicker{
+    font-family:'Fraunces', serif; font-style:italic;
+    font-size:1rem; margin-bottom:14px;
+    display:block;
+  }
+  .product.gin .kicker{color:var(--limoncello);}
+  .product.limoncello .kicker{color:var(--limoncello-deep);}
+
+  .product h2{font-size:clamp(2.1rem,3.6vw,2.9rem);}
+  .product .desc{
+    margin-top:20px;
+    font-size:1.05rem;
+    max-width:46ch;
+  }
+  .product.gin .desc{color:rgba(242,231,210,0.86);}
+  .product.limoncello .desc{color:rgba(23,15,32,0.78);}
+
+  .notes{
+    margin-top:32px;
+    display:flex; flex-wrap:wrap; gap:10px;
+  }
+  .note-chip{
+    font-size:0.86rem;
+    padding:7px 14px;
+    border:1px solid;
+  }
+  .product.gin .note-chip{border-color:var(--line-dark); color:var(--paper);}
+  .product.limoncello .note-chip{border-color:rgba(23,15,32,0.35); color:var(--ink);}
+
+  .spec-row{
+    margin-top:36px;
+    display:flex; gap:36px; flex-wrap:wrap;
+  }
+  .spec{}
+  .spec .num{font-family:'Fraunces', serif; font-size:1.7rem;}
+  .spec .lbl{font-size:0.85rem; opacity:0.75; margin-top:2px;}
+
+  .label-shot{
+    max-width:280px;
+    margin:0 auto;
+    box-shadow:0 20px 46px rgba(0,0,0,0.28);
+  }
+
+  /* ---------- WHERE TO BUY ---------- */
+  .buy{background:var(--paper);}
+  .buy .grid{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:1px;
+    background:var(--line-light);
+    border:1px solid var(--line-light);
+  }
+  .buy-card{
+    background:var(--paper);
+    padding:32px;
+  }
+  .buy-card h3{
+    font-size:1.25rem; font-style:italic; color:var(--gin-deep);
+    margin-bottom:10px;
+  }
+  .buy-card p{font-size:0.95rem; color:rgba(23,15,32,0.72);}
+
+  .cta-band{
+    margin-top:64px;
+    border:1px solid var(--line-light);
+    background:var(--paper-soft);
+    padding:44px;
+    display:flex; align-items:center; justify-content:space-between;
+    gap:24px; flex-wrap:wrap;
+  }
+  .cta-band h3{font-size:1.5rem; max-width:24ch;}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    background:var(--gin-deep);
+    color:rgba(242,231,210,0.72);
+    padding:56px 0 28px;
+    font-size:0.9rem;
+  }
+  footer .top{
+    display:flex; justify-content:space-between; gap:32px; flex-wrap:wrap;
+    padding-bottom:36px; border-bottom:1px solid var(--line-dark);
+  }
+  footer .wordmark{color:var(--paper);}
+  footer .cols{display:flex; gap:64px; flex-wrap:wrap;}
+  footer h4{
+    font-family:'Fraunces', serif; font-style:italic; font-weight:500;
+    color:var(--paper); font-size:1rem; margin-bottom:14px;
+  }
+  footer ul{list-style:none; margin:0; padding:0;}
+  footer li{margin-bottom:8px;}
+  footer a{text-decoration:none; opacity:0.85;}
+  footer a:hover{opacity:1; text-decoration:underline;}
+  .bottom-row{
+    margin-top:24px;
+    display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
+    font-size:0.8rem; opacity:0.65;
+  }
+
+  @media (max-width:900px){
+    .hero .wrap, .story .grid, .product .wrap{
+      grid-template-columns:1fr;
+    }
+    .product.limoncello .product-copy, .product.limoncello .product-art{order:0;}
+    .hero{padding:64px 0 72px;}
+    section{padding:64px 0;}
+    .buy .grid{grid-template-columns:1fr;}
+  }
+</style>
 </head>
 <body>
-  <h1>Welkom op mijn website!</h1>
-  <p>Dit is mijn eerste pagina.</p>
+
+<nav class="nav">
+  <div class="wrap">
+    <a href="#" class="wordmark">Sluipertje</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#gin">Gin</a></li>
+      <li><a href="#limoncello">Limoncello</a></li>
+      <li><a href="#verhaal">Ons verhaal</a></li>
+      <li><a href="#kopen">Waar te koop</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu openen" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <span class="hero-eyebrow">Klein gestookt in Sluipwijk</span>
+      <h1>Gin en limoncello die naar de polder smaken</h1>
+      <p class="lede">Sluipertje maakt biologische dranken van jeneverbes, citrus en kruiden die wij zelf telen en zoeken rond Sluipwijk. Onze gin is van nature helderblauw en kleurt roze zodra je er tonic bij schenkt. Geen omwegen, geen grote fabriek — gewoon eerlijk gestookt, in kleine oplages.</p>
+      <div class="hero-ctas">
+        <a href="#kopen" class="btn btn-gold">Waar te vinden</a>
+        <a href="#verhaal" class="btn btn-outline">Ons verhaal</a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <video class="hero-video" autoplay muted loop playsinline
+        poster="assets/gin-color-change-poster.jpg"
+        aria-label="Glas Sluipertje gin dat van blauw naar roze verkleurt zodra er tonic bij wordt geschonken">
+        <source src="assets/gin-color-change.mp4" type="video/mp4">
+      </video>
+      <span class="hero-video-caption">Blauw wordt roze — zo gaat dat bij Sluipertje</span>
+    </div>
+  </div>
+</header>
+
+<div class="ribbon">
+  <div class="wrap">
+    <span>100% biologisch gecertificeerd</span>
+    <span>Blauwe gin die roze kleurt met tonic</span>
+    <span>Handmatig gebotteld in kleine oplages</span>
+  </div>
+</div>
+
+<div class="bottle-banner">
+  <img src="assets/limoncello-bottles.jpg" alt="Rij afgevulde flessen Limoncello Sluipertje met kraftpapieren etiket, klaar voor verzending">
+</div>
+
+<section class="story" id="verhaal">
+  <div class="wrap">
+    <div class="grid">
+      <div class="story-copy">
+        <div class="section-head" style="margin-bottom:28px;">
+          <h2>Ons verhaal</h2>
+        </div>
+        <p>Sluipwijk is geen plek waar je toevallig langsrijdt — het ligt verscholen tussen de plassen en weilanden van het Groene Hart. Precies dat verscholen, sluipende karakter gaf ons merk zijn naam: een sluipertje, iets dat je er stilletjes bij pakt.</p>
+        <p>We begonnen met een moestuin vol jeneverbes, citroenmelisse en laurier, en de vraag wat we daar behalve soep mee konden maken. Het antwoord werd een kleine distilleerketel, veel geduld, en uiteindelijk twee dranken waar we trots op zijn.</p>
+        <p>Alles wat we gebruiken is biologisch geteeld — een deel op ons eigen erf, de rest bij telers die we kennen bij naam, allemaal binnen een fietstocht van Sluipwijk.</p>
+      </div>
+      <div class="place-card">
+        <h3>Wat we lokaal halen</h3>
+        <ul class="place-list">
+          <li><span>Jeneverbes</span><span>Eigen erf, Sluipwijk</span></li>
+          <li><span>Citroenmelisse & laurier</span><span>Eigen moestuin</span></li>
+          <li><span>Honing</span><span>Imker Van Duuren, Reeuwijk</span></li>
+          <li><span>Biologische citroenen</span><span>Kwekerij De Plas</span></li>
+          <li><span>Graanalcohol (bio)</span><span>Nederlandse stokerij</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="product gin" id="gin">
+  <div class="wrap">
+    <div class="product-copy">
+      <span class="kicker">Sluipertje Gin</span>
+      <h2>Jeneverbes met een polderrand</h2>
+      <p class="desc">Onze gin begint bij verse jeneverbes van het erf, aangevuld met citroenmelisse, laurier en een vleugje riet-honing. Het resultaat is kruidig en fris, met een zachte, licht zoete afdronk. Door de vlinderbloem in het recept is de gin van nature helderblauw — schenk je er tonic bij, dan kleurt het glas zacht roze.</p>
+      <div class="notes">
+        <span class="note-chip">Jeneverbes</span>
+        <span class="note-chip">Citroenmelisse</span>
+        <span class="note-chip">Laurier</span>
+        <span class="note-chip">Honing</span>
+        <span class="note-chip">Kleurt roze met tonic</span>
+      </div>
+      <div class="spec-row">
+        <div class="spec"><div class="num">40%</div><div class="lbl">alcohol</div></div>
+        <div class="spec"><div class="num">250 ml</div><div class="lbl">flesinhoud</div></div>
+        <div class="spec"><div class="num">€17,95</div><div class="lbl">per fles</div></div>
+      </div>
+    </div>
+    <div class="product-art">
+      <img class="label-shot" src="assets/gin-label.jpg" alt="Etiket van Sluipertje Organic Gin, met de omtrek van Sluipwijk en jeneverbessen">
+    </div>
+  </div>
+</section>
+
+<section class="product limoncello" id="limoncello">
+  <div class="wrap">
+    <div class="product-copy">
+      <span class="kicker">Sluipertje Limoncello</span>
+      <h2>Citrus die zonniger smaakt dan het weer</h2>
+      <p class="desc">Voor onze limoncello trekken we alleen de schil van hoogwaardige, biologische citroenen langzaam op zuivere alcohol, zonder haast. We houden de suiker bewust laag, zodat de citrus zelf de hoofdrol blijft spelen — helder, fris en niet stroperig zoet.</p>
+      <div class="notes">
+        <span class="note-chip">Premium citroenschil</span>
+        <span class="note-chip">Weinig suiker</span>
+        <span class="note-chip">Biologisch</span>
+        <span class="note-chip">Zonder kleurstof</span>
+      </div>
+      <div class="spec-row">
+        <div class="spec"><div class="num">30%</div><div class="lbl">alcohol</div></div>
+        <div class="spec"><div class="num">500 ml</div><div class="lbl">flesinhoud</div></div>
+        <div class="spec"><div class="num">€15,95</div><div class="lbl">per fles</div></div>
+      </div>
+    </div>
+    <div class="product-art">
+      <img class="label-shot" src="assets/limoncello-label.jpg" alt="Etiket van Limoncello Sluipertje, met de omtrek van Sluipwijk en een citroen">
+    </div>
+  </div>
+</section>
+
+<section class="buy" id="kopen">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Waar je Sluipertje vindt</h2>
+      <p>Nog geen grote winkelketens — wel een groeiend aantal plekken in de buurt van Sluipwijk waar je een fles kunt proeven of meenemen.</p>
+    </div>
+    <div class="grid">
+      <div class="buy-card">
+        <h3>Aan de deur</h3>
+        <p>Op afspraak kun je een fles ophalen bij de stokerij in Sluipwijk en meteen even proeven.</p>
+      </div>
+      <div class="buy-card">
+        <h3>Lokale winkels</h3>
+        <p>Een aantal slijterijen en boerderijwinkels in Reeuwijk en omstreken heeft Sluipertje op de plank.</p>
+      </div>
+      <div class="buy-card">
+        <h3>Bezorgen</h3>
+        <p>Binnenkort kun je hier ook rechtstreeks bestellen — laat je e-mailadres achter en we laten het weten.</p>
+      </div>
+    </div>
+
+    <div class="cta-band">
+      <h3>Wil je als eerste weten wanneer we online bestellen openen?</h3>
+      <a href="mailto:hallo@sluipertje.nl" class="btn btn-ink">Mail ons</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="top">
+      <a href="#" class="wordmark">Sluipertje</a>
+      <div class="cols">
+        <div>
+          <h4>Verkennen</h4>
+          <ul>
+            <li><a href="#gin">Gin</a></li>
+            <li><a href="#limoncello">Limoncello</a></li>
+            <li><a href="#verhaal">Ons verhaal</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="mailto:hallo@sluipertje.nl">hallo@sluipertje.nl</a></li>
+            <li><a href="#kopen">Waar te koop</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="bottom-row">
+      <span>© 2026 Sluipertje, Sluipwijk. Alcohol 18+. Geniet met mate.</span>
+      <span>Gemaakt met biologische ingrediënten uit eigen omgeving.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  var toggle = document.getElementById('navToggle');
+  var links = document.getElementById('navLinks');
+  if(toggle){
+    toggle.addEventListener('click', function(){
+      var open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    links.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(){
+        links.classList.remove('open');
+        toggle.setAttribute('aria-expanded','false');
+      });
+    });
+  }
+</script>
+
 </body>
 </html>
